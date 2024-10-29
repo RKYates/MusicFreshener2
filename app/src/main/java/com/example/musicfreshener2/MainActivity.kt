@@ -3,13 +3,22 @@ package com.example.musicfreshener2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,11 +31,13 @@ import com.example.musicfreshener2.ui.theme.MusicFreshener2Theme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
         setContent {
             MusicFreshener2Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MusicList()
+                Scaffold(
+                    bottomBar = { BottomBar() },
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    MusicList(innerPadding)
                 }
             }
         }
@@ -34,13 +45,39 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MusicList() {
-    val musicList = listOf<MusicEntry>(
+fun BottomBar() {
+    BottomAppBar(
+        actions = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = App.appContext.getString(R.string.menu_title))
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /* do something */ },
+                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = App.appContext.getString(R.string.add_entry))
+            }
+        }
+    )
+}
+
+@Composable
+fun MusicList(innerPadding: PaddingValues) {
+    val musicList = listOf(
         MusicEntry("Dance with the Dead", "Loved to Death", 5, "10/05/2024", "Synthwave"),
         MusicEntry("Wind Rose", "Trollslayer", 5, "10/04/2024", "Power Metal")
     )
 
-    LazyColumn {
+    LazyColumn (
+        contentPadding = innerPadding
+    ) {
         items(musicList) { row ->
             MusicRow(row)
         }
