@@ -3,4 +3,11 @@
     <string name="title_to_listen_to">To Listen To</string>
     <string name="menu_title">Options</string>
     <string name="add_entry">Add New Entry</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="rating">Rating</string>
+    <string name="date">Date</string>
+    <string name="genre">Genre</string>
+    <string name="add_album">Add Album</string>
+
 </resources>
