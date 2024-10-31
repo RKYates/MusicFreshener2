@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -34,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -59,15 +61,19 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 fun ShowScreen() {
 
-    val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
+    val addSheetState = rememberModalBottomSheetState()
     var showAddBottomSheet by remember { mutableStateOf(false) }
+    val optionsSheetState = rememberModalBottomSheetState()
+    var showOptionsSheet by remember { mutableStateOf(false) }
 
     Scaffold(
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(
+                        onClick = { showOptionsSheet = true }
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = App.appContext.getString(R.string.menu_title))
@@ -96,10 +102,9 @@ fun ShowScreen() {
                 onDismissRequest = {
                     showAddBottomSheet = false
                 },
-                sheetState = sheetState,
-
+                sheetState = addSheetState
             ) {
-                // Sheet content
+                // add Sheet content
                 var artist by remember { mutableStateOf("") }
                 var album by remember { mutableStateOf("") }
                 var rating by remember { mutableStateOf("") }
@@ -149,18 +154,92 @@ fun ShowScreen() {
                         singleLine = true,
                         modifier = Modifier.padding(8.dp)
                     )
-                }
-                Button(onClick = {
-                    addEntry(MusicEntry(artist.trim(), album.trim(), rating.toInt(), date, genre.trim()))
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            showAddBottomSheet = false
-                        }
+                    Button(
+                        onClick = {
+                            addEntry(
+                                MusicEntry(
+                                    artist.trim(),
+                                    album.trim(),
+                                    rating.toInt(),
+                                    date,
+                                    genre.trim()
+                                )
+                            )
+                            scope.launch { addSheetState.hide() }.invokeOnCompletion {
+                                if (!addSheetState.isVisible) {
+                                    showAddBottomSheet = false
+                                }
+                            }
+                            // TODO re-display list with updates for new row .. another mutable var?
+                        },
+                        modifier = Modifier
+                            .padding(bottom = 100.dp) // TODO make this go higher in a better way
+                            .align(Alignment.End)
+                    ) {
+                        Text(stringResource(R.string.add_album))
                     }
+                }
+            }
+        }
+
+        if (showOptionsSheet) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showOptionsSheet = false
                 },
-                    modifier = Modifier.padding(bottom = 100.dp) // TODO make this go higher
+                sheetState = optionsSheetState
+            ) {
+                // options Sheet content
+                var filterText by remember { mutableStateOf("") }
+                val toListenText = stringResource(R.string.title_to_listen_to)
+                val historyText = stringResource(R.string.history)
+                var toggleText by remember { mutableStateOf(toListenText) }
+                var checked by remember { mutableStateOf(true) }
+
+                Column (
+                    modifier = Modifier.padding(8.dp)
                 ) {
-                    Text(stringResource(R.string.add_album))
+                    Row (
+                        modifier = Modifier.padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(toggleText)
+                        Switch(
+                            checked = checked,
+                            onCheckedChange = {
+                                checked = it
+                                toggleText = if (checked) toListenText else historyText
+                            },
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                    Row (
+                        modifier = Modifier.padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(stringResource(R.string.filter_by_text))
+                        TextField(
+                            value = filterText,
+                            onValueChange = { filterText = it },
+                            modifier = Modifier.padding(start = 16.dp),
+                            singleLine = true
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            scope.launch { optionsSheetState.hide() }.invokeOnCompletion {
+                                if (!optionsSheetState.isVisible) {
+                                    showOptionsSheet = false
+                                }
+                            }
+                            // TODO re-display list with filter applied .. another mutable var?
+                        },
+                        modifier = Modifier
+                            .padding(bottom = 100.dp) // TODO make this go higher in a better way
+                            .align(Alignment.End)
+                    ) {
+                        Text(stringResource(R.string.done))
+                    }
                 }
             }
         }
@@ -236,7 +315,7 @@ fun MusicRow(entry: MusicEntry) {
 }
 
 fun addEntry(entry: MusicEntry) {
-    //TODO: Add entry to list
+    //TODO: Add entry to list and refresh
     Log.d("MusicFreshener2", "addEntry: $entry")
 }
 
