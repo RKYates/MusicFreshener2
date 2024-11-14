@@ -6,10 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicfreshener2.data.MusicEntry
 import com.example.musicfreshener2.data.MusicRepository
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.todayIn
 
 class MusicEditViewModel(
     savedStateHandle: SavedStateHandle,
@@ -55,4 +60,21 @@ class MusicEditViewModel(
             musicRepository.updateMusic(musicUiState.musicDetails.toMusicEntry())
         }
     }
+
+    suspend fun addNewListen() {
+        if (validateInput()) {
+            musicRepository.insertMusic(musicUiState.musicDetails.toNewMusicListen())
+        }
+    }
 }
+
+/**
+ * Extension function to convert [MusicDetails] to [MusicEntry] but with a new ID and today's date.
+ */
+fun MusicDetails.toNewMusicListen(): MusicEntry = MusicEntry(
+    artist = artist.trim(),
+    album = album.trim(),
+    rating = rating.trim().toIntOrNull() ?: 0,
+    date = Clock.System.todayIn(TimeZone.currentSystemDefault()).format(dateFormat),
+    genre = genre.trim()
+)

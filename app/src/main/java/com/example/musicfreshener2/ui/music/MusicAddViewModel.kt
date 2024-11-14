@@ -6,6 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.musicfreshener2.data.MusicEntry
 import com.example.musicfreshener2.data.MusicRepository
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.char
+import kotlinx.datetime.todayIn
 
 
 class MusicAddViewModel(private val musicRepository: MusicRepository) : ViewModel() {
@@ -50,7 +56,7 @@ data class MusicDetails (
     val artist: String = "",
     val album: String = "",
     val rating: String = "",
-    val date: String = "",
+    val date: String = Clock.System.todayIn(TimeZone.currentSystemDefault()).format(dateFormat),
     val genre: String = ""
 )
 
@@ -85,3 +91,11 @@ fun MusicEntry.toMusicDetails(): MusicDetails = MusicDetails(
     date = date,
     genre = genre
 )
+
+val dateFormat = LocalDate.Format {
+    monthNumber()
+    char('/')
+    dayOfMonth()
+    char('/')
+    year()
+}
