@@ -2,8 +2,12 @@ package com.example.musicfreshener2
 
 import android.app.Application
 import android.content.Context
+import com.example.musicfreshener2.data.AppContainer
+import com.example.musicfreshener2.data.AppDataContainer
 
-class App : Application() {
+class MusicApplication : Application() {
+
+    lateinit var container: AppContainer
 
     companion object {
         lateinit var appContext: Context
@@ -13,5 +17,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
+        container = AppDataContainer(this)
     }
 }

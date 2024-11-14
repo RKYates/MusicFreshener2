@@ -4,6 +4,7 @@
     <string name="history">History</string>
     <string name="menu_title">Options</string>
     <string name="add_entry">Add New Entry</string>
+    <string name="title_music_edit">Edit Music</string>"
     <string name="artist">Artist</string>
     <string name="album">Album</string>
     <string name="rating">Rating</string>
@@ -12,4 +13,7 @@
     <string name="add_album">Add Album</string>
     <string name="done">Done</string>
     <string name="filter_by_text">Filter by text:</string>
+
+    <string name="back">Back</string>
+    <string name="update">Update</string>
 </resources>
