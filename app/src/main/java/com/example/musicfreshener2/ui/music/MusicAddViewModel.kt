@@ -59,11 +59,11 @@ data class MusicDetails (
  */
 fun MusicDetails.toMusicEntry(): MusicEntry = MusicEntry(
     id = id,
-    artist = artist,
-    album = album,
-    rating = rating.toIntOrNull() ?: 0,
-    date = date,
-    genre = genre
+    artist = artist.trim(),
+    album = album.trim(),
+    rating = rating.trim().toIntOrNull() ?: 0,
+    date = date.trim(),
+    genre = genre.trim()
 )
 
 /**

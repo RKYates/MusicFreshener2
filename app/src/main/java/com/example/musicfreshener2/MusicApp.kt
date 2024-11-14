@@ -24,7 +24,7 @@ fun MusicApp(navController: NavHostController = rememberNavController()) {
 fun AppTopBar(
     title: String,
     canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     CenterAlignedTopAppBar(

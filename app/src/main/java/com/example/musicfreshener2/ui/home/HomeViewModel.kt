@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 /**
  * ViewModel to retrieve all music from the Room DB.
  */
-class HomeViewModel(musicRepository: MusicRepository) : ViewModel() {
+class HomeViewModel(private val musicRepository: MusicRepository) : ViewModel() {
     val homeUiState: StateFlow<HomeUiState> =
         musicRepository.getAllMusicStream().map { HomeUiState(it) }
             .stateIn(
@@ -20,6 +20,8 @@ class HomeViewModel(musicRepository: MusicRepository) : ViewModel() {
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = HomeUiState()
             )
+
+
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L

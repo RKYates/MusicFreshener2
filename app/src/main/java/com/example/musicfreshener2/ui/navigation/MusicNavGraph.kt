@@ -27,7 +27,7 @@ fun MusicNavHost(
         composable(route = HomeDestination.route) {
             HomeScreen(
                 navigateToAddMusic = { navHostController.navigate(MusicAddDestination.route) },
-                navigateToEditMusic = { navHostController.navigate("${MusicEditDestination.route}/$it") },
+                navigateToEditMusic = { navHostController.navigate("${MusicEditDestination.route}/$it") }
             )
         }
         composable(route = MusicAddDestination.route) {

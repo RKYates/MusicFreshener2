@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MusicDao {
     @Insert
-    fun insertMusic(entry: MusicEntry)
+    suspend fun insertMusic(entry: MusicEntry)
 
     @Update
-    fun updateMusic(entry: MusicEntry)
+    suspend fun updateMusic(entry: MusicEntry)
 
     @Query("SELECT * FROM music_entries")
     fun getAllMusic(): Flow<List<MusicEntry>>

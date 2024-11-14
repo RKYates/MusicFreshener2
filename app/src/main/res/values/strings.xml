@@ -16,4 +16,5 @@
 
     <string name="back">Back</string>
     <string name="update">Update</string>
+    <string name="no_music_description">No music logged yet, get listening!</string>
 </resources>
