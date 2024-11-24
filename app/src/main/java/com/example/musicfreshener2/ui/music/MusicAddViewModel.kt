@@ -56,7 +56,7 @@ data class MusicDetails (
     val artist: String = "",
     val album: String = "",
     val rating: String = "",
-    val date: String = Clock.System.todayIn(TimeZone.currentSystemDefault()).format(dateFormat),
+    val date: String = Clock.System.todayIn(TimeZone.currentSystemDefault()).toString(),
     val genre: String = ""
 )
 
@@ -91,11 +91,3 @@ fun MusicEntry.toMusicDetails(): MusicDetails = MusicDetails(
     date = date,
     genre = genre
 )
-
-val dateFormat = LocalDate.Format {
-    monthNumber()
-    char('/')
-    dayOfMonth()
-    char('/')
-    year()
-}

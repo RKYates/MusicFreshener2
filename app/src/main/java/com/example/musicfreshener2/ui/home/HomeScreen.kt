@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.musicfreshener2.AppTopBar
 import com.example.musicfreshener2.MusicApplication
@@ -49,6 +50,8 @@ import com.example.musicfreshener2.R
 import com.example.musicfreshener2.data.MusicEntry
 import com.example.musicfreshener2.ui.AppViewModelProvider
 import com.example.musicfreshener2.ui.navigation.NavigationDestination
+import com.example.musicfreshener2.ui.home.SortingType.TO_LISTEN_TO
+import com.example.musicfreshener2.ui.home.SortingType.HISTORY
 import kotlinx.coroutines.launch
 
 object HomeDestination : NavigationDestination {
@@ -115,6 +118,11 @@ fun HomeScreen(
                             onCheckedChange = {
                                 checked = it
                                 toggleText = if (checked) toListenText else historyText
+                                //TODO make this work realtime
+//                                viewModel.sortMusic(if (checked) TO_LISTEN_TO else HISTORY)
+                                viewModel.viewModelScope.launch {
+                                    viewModel.sortMusic(if (checked) TO_LISTEN_TO else HISTORY)
+                                }
                             },
                             modifier = Modifier.padding(start = 16.dp)
                         )

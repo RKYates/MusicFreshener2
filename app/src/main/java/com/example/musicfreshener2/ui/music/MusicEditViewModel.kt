@@ -75,6 +75,6 @@ fun MusicDetails.toNewMusicListen(): MusicEntry = MusicEntry(
     artist = artist.trim(),
     album = album.trim(),
     rating = rating.trim().toIntOrNull() ?: 0,
-    date = Clock.System.todayIn(TimeZone.currentSystemDefault()).format(dateFormat),
+    date = Clock.System.todayIn(TimeZone.currentSystemDefault()).toString(),
     genre = genre.trim()
 )

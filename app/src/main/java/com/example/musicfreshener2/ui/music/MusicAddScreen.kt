@@ -128,7 +128,10 @@ fun MusicAddForm(
             label = { Text(stringResource(R.string.date)) },
             modifier = Modifier.padding(8.dp),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = androidx.compose.ui.text.input.ImeAction.Next)
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = androidx.compose.ui.text.input.ImeAction.Next
+            )
         )
         TextField(
             value = musicDetails.rating,
