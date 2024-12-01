@@ -92,14 +92,16 @@ class MusicDaoTest {
         musicDao.insertMusic(band2Album2)
         musicDao.insertMusic(band1Album3)
         musicDao.insertMusic(band1Album2Past)
+        musicDao.insertMusic(band1Album3Past)
 
         val allMusic = musicDao.getAllMusic().first()
         assertEquals(allMusic[0], band1Album1)
         assertEquals(allMusic[1], band1Album2)
         assertEquals(allMusic[2], band2Album1)
         assertEquals(allMusic[3], band2Album2)
-        assertEquals(allMusic[4], band1Album3)
-        assertEquals(allMusic[5], band1Album2Past)
+        assertEquals(allMusic[4], band1Album2Past)
+        assertEquals(allMusic[5], band1Album3)
+        assertEquals(allMusic[6], band1Album3Past)
     }
 
     @Test
