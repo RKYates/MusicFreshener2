@@ -11,4 +11,8 @@ data class MusicEntry (
     val rating: Int,
     val date: String,
     val genre: String
-)
+) {
+    override fun toString(): String {
+        return "artist=$artist;album=$album;rating=$rating;date=$date;genre=$genre"
+    }
+}

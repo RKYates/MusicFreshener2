@@ -37,6 +37,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +54,11 @@ import com.example.musicfreshener2.ui.navigation.NavigationDestination
 import com.example.musicfreshener2.ui.home.SortingType.TO_LISTEN_TO
 import com.example.musicfreshener2.ui.home.SortingType.HISTORY
 import kotlinx.coroutines.launch
+
+const val TEST_TAG_ADD_MUSIC_FAB = "add music fab"
+const val TEST_TAG_HOME_SCREEN_BODY = "home screen body"
+const val TEST_TAG_HISTORY_TOGGLE = "history toggle"
+const val TEST_TAG_BOTTOM_SHEET_BUTTON = "bottom sheet button"
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -124,7 +130,9 @@ fun HomeScreen(
                                     viewModel.sortMusic(if (checked) TO_LISTEN_TO else HISTORY)
                                 }
                             },
-                            modifier = Modifier.padding(start = 16.dp)
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .testTag(TEST_TAG_HISTORY_TOGGLE)
                         )
                     }
                     Row (
@@ -169,7 +177,8 @@ fun BottomBar(
     BottomAppBar(
         actions = {
             IconButton(
-                onClick = showOptionsSheet
+                onClick = showOptionsSheet,
+                modifier = Modifier.testTag(TEST_TAG_BOTTOM_SHEET_BUTTON)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Menu,
@@ -180,7 +189,8 @@ fun BottomBar(
             FloatingActionButton(
                 onClick = navigateToAddMusic,
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                modifier = Modifier.testTag(TEST_TAG_ADD_MUSIC_FAB)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -205,6 +215,7 @@ fun MusicBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(contentPadding)
+            .testTag(TEST_TAG_HOME_SCREEN_BODY)
     ) {
         if (entries.isEmpty()) {
             Text(
@@ -252,6 +263,7 @@ fun MusicRow(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = modifier
             .padding(8.dp)
+            .testTag(makeEntryTestTag(entry))
     ) {
         Row(
             modifier = Modifier
@@ -277,6 +289,10 @@ fun MusicRow(
             }
         }
     }
+}
+
+fun makeEntryTestTag(entry: MusicEntry): String {
+    return "entry $entry"
 }
 
 ////////////////// PREVIEWS //////////////////

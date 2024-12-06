@@ -1,4 +1,4 @@
-package com.example.musicfreshener2
+package com.example.musicfreshener2.nonUITests
 
 import android.content.Context
 import androidx.room.Room
