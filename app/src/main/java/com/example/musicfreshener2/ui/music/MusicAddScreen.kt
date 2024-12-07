@@ -58,8 +58,8 @@ fun MusicAddScreen(
             onSaveClick = {
                 coroutineScope.launch {
                     viewModel.addEntry()
-                    navigateBack()
                 }
+                navigateBack()
             } ,
             R.string.add_album,
             modifier = Modifier.padding(innerPadding)
